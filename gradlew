@@ -1,48 +1,39 @@
-#!/bin/sh
-#
-# Copyright © 2015-2021 the original authors.
-#
-# Licensed under the Apache License, Version 2.0
-#
+name: Build APK
 
-##############################################################################
-# Gradle start up script for UN*X
-##############################################################################
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
-# Attempt to set APP_HOME
-APP_HOME=$( cd "${APP_HOME:-./}" && pwd -P ) || exit
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-APP_NAME="Gradle"
-APP_BASE_NAME=${0##*/}
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
-# Use the maximum available, or set MAX_FD != -1 to use that value.
-MAX_FD=maximum
+      - name: Create .env file
+        run: echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
 
-warn () {
-    echo "$*"
-}
+      - name: Install Gradle wrapper
+        run: gradle wrapper --gradle-version 8.2
 
-die () {
-    echo
-    echo "$*"
-    echo
-    exit 1
-}
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
-# OS specific support (must be 'true' or 'false').
-cygwin=false
-msys=false
-darwin=false
-nonstop=false
-case "$( uname )" in              #(
-  CYGWIN* )         cygwin=true  ;;
-  Darwin* )         darwin=true  ;;
-  MSYS* | MINGW* )  msys=true    ;;
-  NONSTOP* )        nonstop=true ;;
-esac
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
 
-CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
-
-exec "$JAVACMD" "$@"
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
