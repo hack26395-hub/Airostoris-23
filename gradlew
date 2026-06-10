@@ -1,39 +1,18 @@
-name: Build APK
+#!/bin/sh
+APP_HOME=$( cd "${0%/*}" && pwd -P )
+APP_NAME="Gradle"
+DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+# Determine the Java command to use to start the JVM.
+if [ -n "$JAVA_HOME" ] ; then
+    JAVACMD="$JAVA_HOME/bin/java"
+else
+    JAVACMD="java"
+fi
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      - name: Create .env file
-        run: echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
-
-      - name: Install Gradle wrapper
-        run: gradle wrapper --gradle-version 8.2
-
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+exec "$JAVACMD" $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS \
+    "-Dorg.gradle.appname=$APP_NAME" \
+    -classpath "$CLASSPATH" \
+    org.gradle.wrapper.GradleWrapperMain "$@"
