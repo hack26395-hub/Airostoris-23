@@ -17,11 +17,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Create .env file
         run: echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
 
-      - name: Make gradlew executable
-        run: git update-index --chmod=+x gradlew && chmod +x gradlew
+      - name: Generate Gradle Wrapper
+        run: gradle wrapper --gradle-version 8.2 --distribution-type bin
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug
