@@ -1,0 +1,6 @@
+{
+  "name": "AIROSTORIS",
+  "description": "صانع كتب وروايات متكامل بالذكاء الاصطناعي مع ميزات النيون والتحكم بالصفحات وإضافة صور وتصدير PDF.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

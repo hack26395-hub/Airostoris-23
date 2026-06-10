@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer Glow Ambient Circle -->
+    <path
+        android:fillColor="#FF007F"
+        android:pathData="M54,54m-30,0a30,30 0,1 1,60 0a30,30 0,1 1,-60 0"
+        android:fillAlpha="0.15" />
+    
+    <!-- Elegant cyberneon decorative lines -->
+    <path
+        android:strokeColor="#00E5FF"
+        android:strokeWidth="2"
+        android:pathData="M34,44 C34,34 74,34 74,44" />
+        
+    <!-- Main open book shape -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,72 C46,67 36,67 28,70 L28,40 C36,37 46,37 54,42 C62,37 72,37 80,40 L80,70 C72,67 62,67 54,72 Z" />
+        
+    <!-- Book central line and bookmark -->
+    <path
+        android:strokeColor="#FF007F"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M54,42 L54,74" />
+        
+    <!-- Text page line layouts -->
+    <path
+        android:strokeColor="#00E5FF"
+        android:strokeWidth="1.5"
+        android:pathData="M34,49 L46,49 M34,55 L46,55 M34,61 L46,61 M62,49 L74,49 M62,55 L74,55 M62,61 L74,61" />
+</vector>
